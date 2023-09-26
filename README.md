@@ -81,8 +81,8 @@ explained below (and printed on the console when calling the function):
 -   103: missing prevalence indicator
 -   104: missing incidence indicator
 -   105: your baseline date is earlier than ERGO follow up start
--   106: your baseline date is later than ERGO follow up end (for
-    disease free individuals)
+-   106: your baseline date is later than censor date (for disease free
+    individuals)
 -   107: any other reason not covered above (should not happen)
 
 ``` r
@@ -97,10 +97,13 @@ baseline <- data.frame(ergoid = shift_data$ergoid,
                        fu_startd = shift_data$fp_startdate + lubridate::dyears(rnorm(nrow(shift_data), 5)))
 
 # redefines prevalence for all diseases and keeps participants with missing data in
-cohort01 <- get_prev(fu_startd = baseline, data = shift_data)
+cohort01 <- get_prev(fu_startd = baseline, 
+                     data = shift_data)
 
 # redefines prevalence for all diseases and removes participants with missing data
-cohort02 <- get_prev(fu_startd = baseline, data = shift_data, removeNA = TRUE)
+cohort02 <- get_prev(fu_startd = baseline, 
+                     data = shift_data, 
+                     removeNA = TRUE)
 
 # redefines prevalence for only diabetes and cancer and removes participants with missing data
 cohort03 <- get_prev(fu_startd = baseline, 
