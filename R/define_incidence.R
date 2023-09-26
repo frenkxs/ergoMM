@@ -41,7 +41,7 @@
 #' @import lubridate
 #' @import dplyr
 #' @import tidyr
-#' @inmport rlang
+#' @import rlang
 
 #' @param fu_startd data frame with exactly two columns: 'ergoid' and 'fu_startd'. ergoid  contains
 #' the ids of participants for which the incidence/prevalence should be re-defined. It can also be a
@@ -70,7 +70,7 @@
 #' asthma: asthma
 #' tia: transient ischemic attack
 #'
-#' @param removeNAs whether participants with incomplete follow-up should be removed. The default is
+#' @param removeNA whether participants with incomplete follow-up should be removed. The default is
 #' set to FALSE, meaning data for all participants specified in fu_start_df will be returned.
 #'
 #' @export
@@ -107,8 +107,10 @@ get_prev <- function(fu_startd,
   # get the ergo id, age, fu start and outcome from the index data
   res <- shift_data %>%
       dplyr::left_join(fu_startd, ., by = "ergoid") %>%
-      mutate(startd_COPD = startd_lung,
-             startd_asthma = startd_lung)
+
+      # COPD and asthma share start date. To be consistent we need to duplicate the column
+      dplyr::mutate(startd_COPD = startd_lung,
+                    startd_asthma = startd_lung)
 
 
   for (disease in diseases){
@@ -119,10 +121,10 @@ get_prev <- function(fu_startd,
     dplyr::select(dplyr::all_of(diseases), sex, ergoid, fu_startd) %>%
 
     # calculate the disease count and set the value to NA if there are NAs
-    rowwise() %>%
-    mutate(count = sum(c_across(diseases[1]:diseases[length(diseases)])),
-           count = if_else(count > 100, NA, count)) %>%
-    ungroup()
+    dplyr::rowwise() %>%
+      dplyr::mutate(count = sum(dplyr::c_across(diseases[1]:diseases[length(diseases)])),
+           count = dplyr::if_else(count > 100, NA, count)) %>%
+      dplyr::ungroup()
 
   message("Missing values in the resulting datasets are coded as follow:\n
           101: missing follow up start date \n
@@ -157,31 +159,31 @@ define_prevalence <- function(dat, disease, return_vector = FALSE){
     inc <- paste0("inc_", disease)
 
     # we need to make sure the ergoids are always in the same order, hence arranging by ergoid
-    res <- arrange(dat, ergoid) %>%
-        mutate(dat,
-               !!disease := case_when(
+    res <- dplyr::arrange(dat, ergoid) %>%
+        dplyr::mutate(dat,
+               !!disease := dplyr::case_when(
 
                    # catch all possibilities of missing values
-                   is.na(!!sym(startd)) ~ 101,
-                   is.na(!!sym(endd)) ~ 102,
-                   is.na(!!sym(prev)) ~ 103,
-                   is.na(!!sym(inc)) ~ 104,
+                   is.na(!!dplyr::sym(startd)) ~ 101,
+                   is.na(!!dplyr::sym(endd)) ~ 102,
+                   is.na(!!dplyr::sym(prev)) ~ 103,
+                   is.na(!!dplyr::sym(inc)) ~ 104,
 
                    # if disease baseline date is earlier than the date of enrolling to ERGO
                    # This should not happen (or at least not very often)
-                   !!sym(startd) > fu_startd ~ 105,
+                   !!dplyr::sym(startd) > fu_startd ~ 105,
 
                    # if prevalent
-                   !!sym(prev) == "yes" ~ 1,
+                   !!dplyr::sym(prev) == "yes" ~ 1,
 
 
                    # if incident
-                   (!!sym(inc) == "yes" & !!sym(endd) <= fu_startd) ~ 1,
-                   (!!sym(inc) == "yes" & !!sym(endd) > fu_startd) ~ 0,
+                   (!!dplyr::sym(inc) == "yes" & !!dplyr::sym(endd) <= fu_startd) ~ 1,
+                   (!!dplyr::sym(inc) == "yes" & !!dplyr::sym(endd) > fu_startd) ~ 0,
 
                    # if disease free
-                   (!!sym(inc) == "no" & !!sym(endd) >= fu_startd) ~ 0,
-                   (!!sym(inc) == "no" & !!sym(endd) < fu_startd) ~ 106,
+                   (!!dplyr::sym(inc) == "no" & !!dplyr::sym(endd) >= fu_startd) ~ 0,
+                   (!!dplyr::sym(inc) == "no" & !!dplyr::sym(endd) < fu_startd) ~ 106,
 
                    # any other case not covered above
                    .default = 107
@@ -191,5 +193,3 @@ define_prevalence <- function(dat, disease, return_vector = FALSE){
     if (return_vector) res <- res %>% dplyr::pull(!!disease)
     res
 }
-
-

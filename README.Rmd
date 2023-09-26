@@ -86,7 +86,7 @@ library(ergoMM)
 load(here::here("data", "shift_data.RData"))
 
 # generate fu_startd dataset with new baseline date
-baseline <- data.frame(erogid = shift_data$ergoid, 
+baseline <- data.frame(ergoid = shift_data$ergoid, 
                        fu_startd = shift_data$fp_startdate + lubridate::dyears(rnorm(nrow(shift_data), 5)))
 
 # redefines prevalence for all diseases and keeps participants with missing data in
