@@ -87,6 +87,7 @@ explained below (and printed on the console when calling the function):
 
 ``` r
 library(ergoMM)
+# install.packages('lubridate")
 
 # load the multimorbidity dataset (an example)
 load(here::here("data", "shift_data.RData"))
@@ -96,13 +97,13 @@ baseline <- data.frame(ergoid = shift_data$ergoid,
                        fu_startd = shift_data$fp_startdate + lubridate::dyears(rnorm(nrow(shift_data), 5)))
 
 # redefines prevalence for all diseases and keeps participants with missing data in
-cohort <- get_prev(fu_startd = baseline, data = shift_data)
+cohort01 <- get_prev(fu_startd = baseline, data = shift_data)
 
 # redefines prevalence for all diseases and removes participants with missing data
-cohort <- get_prev(fu_startd = baseline, data = shift_data, removeNA = TRUE)
+cohort02 <- get_prev(fu_startd = baseline, data = shift_data, removeNA = TRUE)
 
 # redefines prevalence for only diabetes and cancer and removes participants with missing data
-cohort <- get_prev(fu_startd = baseline, 
+cohort03 <- get_prev(fu_startd = baseline, 
                    data = shift_data, 
                    diseases = c("dia", "can1"),
                    removeNA = TRUE)

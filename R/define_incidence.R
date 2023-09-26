@@ -126,17 +126,20 @@ get_prev <- function(fu_startd,
            count = dplyr::if_else(count > 100, NA, count)) %>%
       dplyr::ungroup()
 
-  message("Missing values in the resulting datasets are coded as follow:\n
-          101: missing follow up start date \n
-          102: missing follow up end date \n
-          103: missing prevalence indicator \n
-          104: missing incidence indicator \n
-          105: your baseline date is earlier than ERGO follow up start \n
-          106: your baseline date is later than ERGO follow up end (for disease free individuals) \n
-          107: any other reason not covered above (should not happen)
-          ")
 
-  if (removeNA) tidyr::drop_na(res) else res
+  if (removeNA) {res <- tidyr::drop_na(res)
+      } else {
+          message("Missing values in the resulting datasets are coded as follow:\n
+                  101: missing follow up start date \n
+                  102: missing follow up end date \n
+                  103: missing prevalence indicator \n
+                  104: missing incidence indicator \n
+                  105: your baseline date is earlier than ERGO follow up start \n
+                  106: your baseline date is later than ERGO follow up end (for disease free individuals) \n
+                  107: any other reason not covered above (should not happen)
+          ")
+      }
+  res
 }
 
 
