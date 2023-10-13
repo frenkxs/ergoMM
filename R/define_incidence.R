@@ -31,6 +31,7 @@
 #' 9. dementia
 #' 10. parkinsonism
 #' 11. depression
+#' 12. chronic kidney disease
 
 #'
 #' To access the ERGO multimorbidity data, contact Frank van Rooij (f.vanrooij at erasmusmc.nl) and
@@ -69,6 +70,7 @@
 #' COPD: chronic obstructive pulmonary disease
 #' asthma: asthma
 #' tia: transient ischemic attack
+#' ckd: chronic kidney disease
 #'
 #' @param removeNA whether participants with incomplete follow-up should be removed. The default is
 #' set to FALSE, meaning data for all participants specified in fu_start_df will be returned.
@@ -99,7 +101,8 @@ get_prev <- function(fu_startd,
         "dep1",
         "COPD",
         "asthma",
-        "tia"
+        "tia",
+        "ckd"
   )
 
   fu_startd <- tidyr::drop_na(fu_startd)

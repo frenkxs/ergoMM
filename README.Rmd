@@ -30,6 +30,7 @@ So far, the package works for RS-I, RS-II and RS-III cohorts and the following d
 - Dementia
 - Parkinsonism
 - Depression (including depressive symptoms)
+- Chronic kidney disease
 
 
 ## Installation
@@ -67,6 +68,7 @@ diseases can be defined using a the following abbreviations:
 - COPD: chronic obstructive pulmonary disease
 - asthma: asthma
 - tia: transient ischemic attack
+- ckd: chronic kidney disease
 
 **removeNA** whether participants with incomplete follow-up should be removed. The default is
 set to FALSE, meaning data for all participants specified in fu_startd will be returned. The missing data are coded, using numbers from 100 onwards; the reason for missing data are explained below (and printed on the console when calling the function):

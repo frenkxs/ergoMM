@@ -22,6 +22,7 @@ following diseases:
 -   Dementia
 -   Parkinsonism
 -   Depression (including depressive symptoms)
+-   Chronic kidney disease
 
 ## Installation
 
@@ -69,6 +70,7 @@ defined using a the following abbreviations:
 -   COPD: chronic obstructive pulmonary disease
 -   asthma: asthma
 -   tia: transient ischemic attack
+-   ckd: chronic kidney disease
 
 **removeNA** whether participants with incomplete follow-up should be
 removed. The default is set to FALSE, meaning data for all participants
