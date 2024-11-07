@@ -108,7 +108,7 @@ get_prev <- function(fu_startd,
   fu_startd <- tidyr::drop_na(fu_startd)
 
   # get the ergo id, age, fu start and outcome from the index data
-  res <- shift_data %>%
+  res <- data %>%
       dplyr::left_join(fu_startd, ., by = "ergoid") %>%
 
       # COPD and asthma share start date. To be consistent we need to duplicate the column
