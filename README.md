@@ -11,18 +11,18 @@ to user defined baseline date.
 So far, the package works for RS-I, RS-II and RS-III cohorts and the
 following diseases:
 
--   Cancer (all types expect non-melanoma skin cancer)
--   COPD
--   Asthma
--   Stroke
--   Diabetes
--   Coronary heart disease
--   Heart failure
--   Transient Ischemic Attack
--   Dementia
--   Parkinsonism
--   Depression (including depressive symptoms)
--   Chronic kidney disease
+- Cancer (all types expect non-melanoma skin cancer)
+- COPD
+- Asthma
+- Stroke
+- Diabetes
+- Coronary heart disease
+- Heart failure
+- Transient Ischemic Attack
+- Dementia
+- Parkinsonism
+- Depression (including depressive symptoms)
+- Chronic kidney disease
 
 ## Installation
 
@@ -50,6 +50,9 @@ corresponding to each participant. Participant with baseline dates set
 to NA will be removed. `ergoid` should be formatted as factor,
 `fu_startd` is a date in the yyyy-mm-dd format.
 
+If the baseline dates are the same for all participants in the data,
+then you may use a sigle date value in the yyyy-mm-dd format.
+
 **data** ERGO multimorbidity data. The default is shift_data. To access
 the ERGO multimorbidity data, contact Frank van Rooij (f.vanrooij at
 erasmusmc.nl) and Silvan Licher (s.licher at erasmusmc.nl).
@@ -59,18 +62,18 @@ prevalence should be redefined. By default all diseases included in the
 multimorbidity data will be considered. A subset of the diseases can be
 defined using a the following abbreviations:
 
--   dia: diabetes
--   stroke: stroke
--   can1: cancer
--   dem: dementia
--   hf: heart failure
--   chd: coronary heart disease
--   park: parkinsonism
--   dep1: depression
--   COPD: chronic obstructive pulmonary disease
--   asthma: asthma
--   tia: transient ischemic attack
--   ckd: chronic kidney disease
+- dia: diabetes
+- stroke: stroke
+- can1: cancer
+- dem: dementia
+- hf: heart failure
+- chd: coronary heart disease
+- park: parkinsonism
+- dep1: depression
+- COPD: chronic obstructive pulmonary disease
+- asthma: asthma
+- tia: transient ischemic attack
+- ckd: chronic kidney disease
 
 **removeNA** whether participants with incomplete follow-up should be
 removed. The default is set to FALSE, meaning data for all participants
@@ -78,14 +81,14 @@ specified in fu_startd will be returned. The missing data are coded,
 using numbers from 100 onwards; the reason for missing data are
 explained below (and printed on the console when calling the function):
 
--   101: missing follow up start date
--   102: missing follow up end date
--   103: missing prevalence indicator
--   104: missing incidence indicator
--   105: your baseline date is earlier than ERGO follow up start
--   106: your baseline date is later than censor date (for disease free
-    individuals)
--   107: any other reason not covered above (should not happen)
+- 101: missing follow up start date
+- 102: missing follow up end date
+- 103: missing prevalence indicator
+- 104: missing incidence indicator
+- 105: your baseline date is earlier than ERGO follow up start
+- 106: your baseline date is later than censor date (for disease free
+  individuals)
+- 107: any other reason not covered above (should not happen)
 
 ``` r
 library(ergoMM)

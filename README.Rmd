@@ -51,6 +51,8 @@ It takes the following arguments:
 
 **fu_startd** data frame with exactly two columns: `ergoid` and `fu_startd`. `ergoid` contains the ids of participants for which the prevalence should be redefined. It can also be a subset of participants from RS-I through RS-III. `fu_startd` contains the baseline dates corresponding to each participant. Participant with baseline dates set to NA will be removed. `ergoid` should be formatted as factor, `fu_startd` is a date in the yyyy-mm-dd format.
 
+If the baseline dates are the same for all participants in the data, then you may use a sigle date value in the yyyy-mm-dd format.
+
 **data** ERGO multimorbidity data. The default is shift_data. To access the ERGO multimorbidity data, contact Frank van Rooij (f.vanrooij at erasmusmc.nl) and Silvan Licher (s.licher at erasmusmc.nl).
 
 **diseases** a character vector with diseases for which the baseline prevalence should be redefined. By

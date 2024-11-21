@@ -44,36 +44,35 @@
 #' @import tidyr
 #' @import rlang
 
-#' @param fu_startd data frame with exactly two columns: 'ergoid' and 'fu_startd'. ergoid  contains
-#' the ids of participants for which the incidence/prevalence should be re-defined. It can also be a
-#' subset of participants from RS-I through RS-III. fu_startd contains the baseline dates
-#' corresponding to each participant. Participant with baseline dates set to NA will be automatically
-#' assigned NA to all diseases.
-#'
-#' ergoid should be formatted as factor, fu_startd needs to be a date in the yyyy-mm-dd format
+#' @param fu_startd a data frame when the baseline is different for different
+#'   participants, or a date in the yyyy-mm-dd format if it is the same for all
+#'   participants. You use a data frame to specify different baseline dates for
+#'   the participants; in this case, the participants are identified by their
+#'   ergoid and each one is assigned a baseline date. Therefore the dataframe
+#'   has two columns: 'ergoid' and 'fu_startd'. ergoid contains the ids of
+#'   participants for which the incidence/prevalence should be re-defined. It
+#'   can also be a subset of participants from RS-I through RS-III. fu_startd
+#'   contains the baseline dates corresponding to each participant. Participant
+#'   with baseline dates set to NA will be automatically assigned NA to all
+#'   diseases. ergoid should be formatted as factor, fu_startd needs to be a
+#'   date in the yyyy-mm-dd format
 #'
 #'
 #' @param data ERGO multimorbidity data. The default is shift_data.
 #'
-#' @param diseases a character vector with diseases for which the baseline prevalence should be re-defined. By
-#' default all diseases included in the multimorbidity data will be considered. A subset of the
-#' diseases must be defined using a the following abbreviations:
+#' @param diseases a character vector with diseases for which the baseline
+#'   prevalence should be re-defined. By default all diseases included in the
+#'   multimorbidity data will be considered. A subset of the diseases must be
+#'   defined using a the following abbreviations:
 #'
-#' dia: diabetes
-#' stroke: stroke
-#' can1: cancer
-#' dem: dementia
-#' hf: heart failure
-#' chd: coronary heart disease
-#' park: parkinsonism
-#' dep1: depression
-#' COPD: chronic obstructive pulmonary disease
-#' asthma: asthma
-#' tia: transient ischemic attack
-#' ckd: chronic kidney disease
+#'   dia: diabetes stroke: stroke can1: cancer dem: dementia hf: heart failure
+#'   chd: coronary heart disease park: parkinsonism dep1: depression COPD:
+#'   chronic obstructive pulmonary disease asthma: asthma tia: transient
+#'   ischemic attack ckd: chronic kidney disease
 #'
-#' @param removeNA whether participants with incomplete follow-up should be removed. The default is
-#' set to FALSE, meaning data for all participants specified in fu_start_df will be returned.
+#' @param removeNA whether participants with incomplete follow-up should be
+#'   removed. The default is set to FALSE, meaning data for all participants
+#'   specified in fu_start_df will be returned.
 #'
 #' @export
 get_prev <- function(fu_startd,
@@ -87,6 +86,14 @@ get_prev <- function(fu_startd,
       data <- data
   } else {
       stop("The data frame ", "`", temp, "`", " does not exist", sep = "")
+  }
+
+  # check if fu_startd is a data frame or a date. If it is not, then it must
+  # be a date/string. Then we create a new dataframe with the same baseline
+  # for all participants.
+  if(!is.data.frame(fu_startd)) {
+    fu_startd <- data.frame(ergoid = data$ergoid,
+                            fu_startd = lubridate::ymd(fu_startd))
   }
 
   # get list of diseases
